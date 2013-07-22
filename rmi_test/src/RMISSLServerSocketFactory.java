@@ -62,9 +62,9 @@ public class RMISSLServerSocketFactory implements RMIServerSocketFactory {
 			KeyStore ks;
 			TrustManager[] tms = new TrustManager[]{new MyTrustManager()};
 
-			char[] passphrase = "passwordd".toCharArray();
+			char[] passphrase = "slfapass".toCharArray();
 			ks = KeyStore.getInstance("JKS");
-			ks.load(new FileInputStream("ks.jks"), passphrase);
+			ks.load(new FileInputStream("slf.jks"), passphrase);
 
 			kmf = KeyManagerFactory.getInstance("SunX509");
 			kmf.init(ks, passphrase);

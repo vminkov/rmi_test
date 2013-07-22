@@ -17,7 +17,7 @@ public class MyTrustManager implements X509TrustManager {
 		 stataceCerts = new X509Certificate[1];
 	        try {
 	            CertificateFactory cf = CertificateFactory.getInstance("X.509");
-	            stataceCerts[0] = (X509Certificate) cf.generateCertificate(new FileInputStream("statace_cert.csr"));
+	            stataceCerts[0] = (X509Certificate) cf.generateCertificate(new FileInputStream("slfcert.crt"));
 	        }catch(CertificateException e) {
 	            stataceCerts = new X509Certificate[] { null };
 	        }catch(FileNotFoundException e) {
@@ -28,7 +28,7 @@ public class MyTrustManager implements X509TrustManager {
 	@Override
 	public void checkClientTrusted(X509Certificate[] arg0, String arg1)
 			throws CertificateException {
-        throw new UnsupportedOperationException("we don't care if the client trusts us");
+       return; //throw new UnsupportedOperationException("we don't care if the client trusts us");
 	}
 
 	@Override
