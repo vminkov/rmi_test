@@ -62,8 +62,8 @@ public class HelloClient {
 //	           }
 //	   		System.setProperty("javax.net.ssl.keyStore", "keystore.jks");
 //			System.setProperty("javax.net.ssl.keyStorePassword", "password");
-			System.setProperty("javax.net.ssl.trustStore", "slf.jks");//only ca-cert is inside keystore.jks
-			System.setProperty("javax.net.ssl.trustStorePassword", "slfapass");
+//			System.setProperty("javax.net.ssl.trustStore", "slf.jks");//only ca-cert is inside keystore.jks
+//			System.setProperty("javax.net.ssl.trustStorePassword", "slfapass");
 			//System.setProperty("javax.net.debug", "all");
 
 		try {

@@ -41,27 +41,39 @@
 import java.io.*;
 import java.net.*;
 import java.rmi.server.*;
+import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
 
 import javax.net.ssl.*;
 
 public class RMISSLClientSocketFactory implements RMIClientSocketFactory,
 		Serializable {
+	
+	private SSLSocketFactory csf = null;
 
+	public RMISSLClientSocketFactory() throws Exception{
+		SSLContext ctx;
+		KeyManagerFactory kmf;
+		KeyStore ks;
+		TrustManager[] tms = new TrustManager[]{new MyTrustManager("slfcert_client.crt")};
+
+		char[] passphrase = "slfapass".toCharArray();
+		ks = KeyStore.getInstance("JKS");
+		ks.load(new FileInputStream("slf_client.jks"), passphrase);
+
+		kmf = KeyManagerFactory.getInstance("SunX509");
+		kmf.init(ks, passphrase);
+		
+		ctx = SSLContext.getInstance("SSL");
+		ctx.init(kmf.getKeyManagers(), tms, null);//
+
+		csf = ctx.getSocketFactory();
+	}
 	public Socket createSocket(String host, int port) throws IOException {
-		SSLContext ctx = null;
 		
-//		try {
-//			ctx = SSLContext.getInstance("PKIX");
-//		} catch (NoSuchAlgorithmException e) {
-//			e.printStackTrace();
-//		}
-		
-		
-		
-//		SSLSocketFactory factory = (SSLSocketFactory) ctx.getSocketFactory();
-		SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-		SSLSocket socket = (SSLSocket) factory.createSocket(host, port);
+//		SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+		SSLSocket socket = (SSLSocket) csf.createSocket(host, port);
+		socket.setNeedClientAuth(true);
 		return socket;
 	}
 

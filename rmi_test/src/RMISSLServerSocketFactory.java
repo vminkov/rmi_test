@@ -60,7 +60,7 @@ public class RMISSLServerSocketFactory implements RMIServerSocketFactory {
 			SSLContext ctx;
 			KeyManagerFactory kmf;
 			KeyStore ks;
-			TrustManager[] tms = new TrustManager[]{new MyTrustManager()};
+			TrustManager[] tms = new TrustManager[]{new MyTrustManager("slfcert.crt")};
 
 			char[] passphrase = "slfapass".toCharArray();
 			ks = KeyStore.getInstance("JKS");
@@ -82,6 +82,7 @@ public class RMISSLServerSocketFactory implements RMIServerSocketFactory {
 	public ServerSocket createServerSocket(int port) throws IOException {
 		SSLServerSocket serverSocket = (SSLServerSocket) ssf.createServerSocket(port);
 		serverSocket.setNeedClientAuth(true);
+//		serverSocket.setWantClientAuth(true);
 //		serverSocket.setEnabledProtocols(new String[]{"TLSv1"});
 
 		return serverSocket;

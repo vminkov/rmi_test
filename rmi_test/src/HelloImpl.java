@@ -38,21 +38,18 @@
  * maintenance of any nuclear facility. 
  */
 
+import java.io.Serializable;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-public class HelloImpl extends UnicastRemoteObject implements Hello {
+public class HelloImpl extends UnicastRemoteObject {
 
 	private static final int PORT = 2019;
 
 	public HelloImpl() throws Exception {
 		super(PORT, new RMISSLClientSocketFactory(),
 				new RMISSLServerSocketFactory());
-	}
-
-	public String sayHello() {
-		return "Hello World!";
 	}
 
 	public static void main(String args[]) {
@@ -102,15 +99,25 @@ public class HelloImpl extends UnicastRemoteObject implements Hello {
 					new RMISSLClientSocketFactory(),
 					new RMISSLServerSocketFactory());
 
-			HelloImpl obj = new HelloImpl();
+			HelloMessage obj = new HelloMessage();
 
 			// Bind this object instance to the name "HelloServer"
 			registry.bind("HelloServer", obj);
-
+			registry.bind("HelloNothing", new HelloImpl());
+			
 			System.out.println("HelloServer bound in registry");
+			
 		} catch (Exception e) {
 			System.out.println("HelloImpl err: " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
+}
+
+class HelloMessage implements Hello, Serializable{
+
+	public String sayHello() {
+		return "Hello World!";
+	}
+
 }
